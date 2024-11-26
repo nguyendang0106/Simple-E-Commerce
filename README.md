@@ -71,5 +71,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ### Dự án này được fork từ: [original-repo](https://github.com/<original-owner>/<original-repo-name>)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://github.com/Saphyiera/shopee-simplify.git)
+This section has moved here: [https://github.com/Saphyiera/shopee-simplify.git](https://github.com/Saphyiera/shopee-simplify.git)
 
