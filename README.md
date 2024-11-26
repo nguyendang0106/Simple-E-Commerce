@@ -69,4 +69,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-### Dự án này được fork từ: [original-repo]([https://github.com/<original-owner>/<original-repo-name>](https://github.com/Saphyiera/shopee-simplify.git))
+### Dự án này được fork từ: [original-repo](https://github.com/<original-owner>/<original-repo-name>)
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://github.com/Saphyiera/shopee-simplify.git)
+
