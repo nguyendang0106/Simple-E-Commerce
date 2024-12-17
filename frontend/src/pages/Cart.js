@@ -210,7 +210,7 @@ const Cart = () => {
                                       </tr>
                                   ))}
                             <tr>
-                                <td colSpan="6" className='text-left px-9 py-7 font-semibold' style={{ fontSize: '20px' }}>
+                                <td colSpan="6" className='text-right px-9 py-7 font-semibold' style={{ fontSize: '20px' }}>
                                     <div>
                                         Tổng thanh toán ({totalQty} sản phẩm) : 
                                         <span className='text-red-600'> {displayVNDCurrency(totalPrice)}</span>

@@ -61,7 +61,7 @@ const BannerProduct = () => {
     },[currentImage])
 
   return (
-    <div className='container mx-auto px-4 rounded '>
+    <div className='container mx-auto px-1 rounded mt-4 '>
         <div className='h-56 md:h-72 w-full bg-slate-200 relative'>
 
                 <div className='absolute z-10 h-full w-full md:flex items-center hidden '>
