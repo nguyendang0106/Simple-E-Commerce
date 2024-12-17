@@ -4,10 +4,7 @@ import Context from '../context';
 import displayVNDCurrency from '../helpers/displayCurrency';
 import { MdDelete } from "react-icons/md";
 import { loadStripe } from '@stripe/stripe-js';
-import CategoryList from '../components/CategoryList'
-import BannerProduct from '../components/BannerProduct'
-import HorizontalCardProduct from '../components/HorizontalCardProduct'
-import VerticalCardProduct from '../components/VerticalCardProduct'
+import CategoryWiseProductDisplay from '../components/CategoryWiseProductDisplay';
 
 const Cart = () => {
     const [data, setData] = useState([]);
@@ -233,19 +230,12 @@ const Cart = () => {
                     </table>
                 </div>
             )}
-            <div>
-                <h2 className="text-2xl font-bold mb-4 text-center">Gợi Ý Sản Phẩm</h2>
-                <HorizontalCardProduct category={"airpodes"} heading={"Top's Airpodes"}/>
-                <HorizontalCardProduct category={"watches"} heading={"Popular's Watches"}/>
-                <VerticalCardProduct category={"mobiles"} heading={"Mobiles"}/>
-                <VerticalCardProduct category={"Mouse"} heading={"Mouse"}/>
-                <VerticalCardProduct category={"televisions"} heading={"Televisions"}/>
-                <VerticalCardProduct category={"camera"} heading={"Camera & Photography"}/>
-                <VerticalCardProduct category={"earphones"} heading={"Wired Earphones"}/>
-                <VerticalCardProduct category={"speakers"} heading={"Bluetooth Speakers"}/>
-                <VerticalCardProduct category={"refrigerator"} heading={"Refrigerator"}/>
-                <VerticalCardProduct category={"trimmers"} heading={"Trimmers"}/>
-            </div>
+            {
+                data.length > 0 && data[0].productId?.category && (
+                    <CategoryWiseProductDisplay category={data[0].productId?.category} heading={"Có thể bạn cũng thích"} />
+                )
+            }
+
         </div>
     );
 };
