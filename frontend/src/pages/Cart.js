@@ -1,236 +1,253 @@
-import React, { useContext, useEffect, useState } from 'react'
-import SummaryApi from '../common'
-import Context from '../context'
-import displayVNDCurrency from '../helpers/displayCurrency'
+import React, { useContext, useEffect, useState } from 'react';
+import SummaryApi from '../common';
+import Context from '../context';
+import displayVNDCurrency from '../helpers/displayCurrency';
 import { MdDelete } from "react-icons/md";
-import {loadStripe} from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import CategoryList from '../components/CategoryList'
+import BannerProduct from '../components/BannerProduct'
+import HorizontalCardProduct from '../components/HorizontalCardProduct'
+import VerticalCardProduct from '../components/VerticalCardProduct'
 
 const Cart = () => {
-    const [data,setData] = useState([])
-    const [loading,setLoading] = useState(false)
-    const context = useContext(Context)
-    const loadingCart = new Array(4).fill(null)
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const context = useContext(Context);
+    const loadingCart = new Array(4).fill(null);
 
-
-    const fetchData = async() =>{
-        
-        const response = await fetch(SummaryApi.addToCartProductView.url,{
-            method : SummaryApi.addToCartProductView.method,
-            credentials : 'include',
-            headers : {
-                "content-type" : 'application/json'
+    const fetchData = async () => {
+        const response = await fetch(SummaryApi.addToCartProductView.url, {
+            method: SummaryApi.addToCartProductView.method,
+            credentials: 'include',
+            headers: {
+                "content-type": 'application/json',
             },
-        })
-       
+        });
 
-        const responseData = await response.json()
+        const responseData = await response.json();
 
-        if(responseData.success){
-            setData(responseData.data)
+        if (responseData.success) {
+            setData(responseData.data);
         }
+    };
 
+    const handleLoading = async () => {
+        await fetchData();
+    };
 
-    }
+    useEffect(() => {
+        setLoading(true);
+        handleLoading();
+        setLoading(false);
+    }, []);
 
-    const handleLoading = async() =>{
-        await fetchData()
-    }
-
-    useEffect(()=>{
-        setLoading(true)
-        handleLoading()
-         setLoading(false)
-    },[])
-
-
-    const increaseQty = async(id,qty) =>{
-        const response = await fetch(SummaryApi.updateCartProduct.url,{
-            method : SummaryApi.updateCartProduct.method,
-            credentials : 'include',
-            headers : {
-                "content-type" : 'application/json'
+    const increaseQty = async (id, qty) => {
+        const response = await fetch(SummaryApi.updateCartProduct.url, {
+            method: SummaryApi.updateCartProduct.method,
+            credentials: 'include',
+            headers: {
+                "content-type": 'application/json',
             },
-            body : JSON.stringify(
-                {   
-                    _id : id,
-                    quantity : qty + 1
-                }
-            )
-        })
+            body: JSON.stringify({
+                _id: id,
+                quantity: qty + 1,
+            }),
+        });
 
-        const responseData = await response.json()
+        const responseData = await response.json();
 
-
-        if(responseData.success){
-            fetchData()
+        if (responseData.success) {
+            fetchData();
         }
-    }
+    };
 
-
-    const decraseQty = async(id,qty) =>{
-       if(qty >= 2){
-            const response = await fetch(SummaryApi.updateCartProduct.url,{
-                method : SummaryApi.updateCartProduct.method,
-                credentials : 'include',
-                headers : {
-                    "content-type" : 'application/json'
+    const decraseQty = async (id, qty) => {
+        if (qty >= 2) {
+            const response = await fetch(SummaryApi.updateCartProduct.url, {
+                method: SummaryApi.updateCartProduct.method,
+                credentials: 'include',
+                headers: {
+                    "content-type": 'application/json',
                 },
-                body : JSON.stringify(
-                    {   
-                        _id : id,
-                        quantity : qty - 1
-                    }
-                )
-            })
+                body: JSON.stringify({
+                    _id: id,
+                    quantity: qty - 1,
+                }),
+            });
 
-            const responseData = await response.json()
+            const responseData = await response.json();
 
-
-            if(responseData.success){
-                fetchData()
+            if (responseData.success) {
+                fetchData();
             }
         }
-    }
+    };
 
-    const deleteCartProduct = async(id)=>{
-        const response = await fetch(SummaryApi.deleteCartProduct.url,{
-            method : SummaryApi.deleteCartProduct.method,
-            credentials : 'include',
-            headers : {
-                "content-type" : 'application/json'
+    const deleteCartProduct = async (id) => {
+        const response = await fetch(SummaryApi.deleteCartProduct.url, {
+            method: SummaryApi.deleteCartProduct.method,
+            credentials: 'include',
+            headers: {
+                "content-type": 'application/json',
             },
-            body : JSON.stringify(
-                {   
-                    _id : id,
-                }
-            )
-        })
+            body: JSON.stringify({
+                _id: id,
+            }),
+        });
 
-        const responseData = await response.json()
+        const responseData = await response.json();
 
-        if(responseData.success){
-            fetchData()
-            context.fetchUserAddToCart()
+        if (responseData.success) {
+            fetchData();
+            context.fetchUserAddToCart();
         }
-    }
+    };
 
-    const handlePayment = async()=>{
-
-
+    const handlePayment = async () => {
         const stripePromise = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
-        const response = await fetch(SummaryApi.payment.url,{
-            method : SummaryApi.payment.method,
-            credentials : 'include',
-            headers : {
-                "content-type" : 'application/json'
+        const response = await fetch(SummaryApi.payment.url, {
+            method: SummaryApi.payment.method,
+            credentials: 'include',
+            headers: {
+                "content-type": 'application/json',
             },
-            body : JSON.stringify({
-                cartItems : data
-            })
-        })
+            body: JSON.stringify({
+                cartItems: data,
+            }),
+        });
 
-        const responseData = await response.json()
+        const responseData = await response.json();
 
-        if(responseData?.id) {
-            stripePromise.redirectToCheckout({ sessionId : responseData.id })
+        if (responseData?.id) {
+            stripePromise.redirectToCheckout({ sessionId: responseData.id });
         }
 
-        console.log("payment response", responseData)
-    }
+        console.log("payment response", responseData);
+    };
 
-    const totalQty = data.reduce((previousValue,currentValue)=> previousValue + currentValue.quantity,0)
-    const totalPrice = data.reduce((preve,curr)=> preve + (curr.quantity * curr?.productId?.sellingPrice) ,0)
-  return (
-    <div className='container mx-auto'>
-        
-        <div className='text-center text-lg my-3'>
-            {
-                data.length === 0 && !loading && (
+    const totalQty = data.reduce((previousValue, currentValue) => previousValue + currentValue.quantity, 0);
+    const totalPrice = data.reduce((preve, curr) => preve + (curr.quantity * curr?.productId?.sellingPrice), 0);
+
+    return (
+        <div className='container mx-auto p-4'>
+            <div className='text-center text-lg my-3'>
+                {data.length === 0 && !loading && (
                     <p className='bg-white py-5'>Không có dữ liệu</p>
-                )
-            }
-        </div>
+                )}
+            </div>
 
-        <div className='flex flex-col lg:flex-row gap-10 lg:justify-between p-4'>   
-                {/***view product */}
-                <div className='w-full max-w-3xl'>
-                    {
-                        loading ? (
-                            loadingCart?.map((el,index) => {
-                                return(
-                                    <div key={el+"Add To Cart Loading"+index} className='w-full bg-slate-200 h-32 my-2 border border-slate-300 animate-pulse rounded'>
+            {/** Bảng sản phẩm */}
+            {data.length > 0 && (
+                <div className='overflow-x-auto shadow-lg border rounded-lg' style={{marginBottom:'30px'}}>
+                    <table className='min-w-full table-auto bg-white'>
+                        <thead className='bg-gray-100'>
+                            <tr>
+                                <th className='px-4 py-4 text-center text-lg'>Sản Phẩm</th>
+                                <th className='px-4 py-4 text-left text-lg'>Thông Tin</th>
+                                <th className='px-4 py-4 text-left text-lg'>Đơn Giá</th>
+                                <th className='px-4 py-4 text-left text-lg'>Số Lượng</th>
+                                <th className='px-4 py-4 text-left text-lg'>Số Tiền</th>
+                                <th className='px-4 py-4 text-left text-lg'>Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {loading
+                                ? loadingCart.map((_, index) => (
+                                      <tr key={index} className='animate-pulse'>
+                                          <td className='px-4 py-4 bg-slate-200 h-16'></td>
+                                          <td className='px-4 py-4 bg-slate-200 h-16'></td>
+                                          <td className='px-4 py-4 bg-slate-200 h-16'></td>
+                                          <td className='px-4 py-4 bg-slate-200 h-16'></td>
+                                          <td className='px-4 py-4 bg-slate-200 h-16'></td>
+                                          <td className='px-4 py-4 bg-slate-200 h-16'></td>
+                                      </tr>
+                                  ))
+                                : data.map((product) => (
+                                      <tr key={product?._id} className='border-b'>
+                                         <td className='px-0 py-4 text-center align-middle'>
+                                                <div className='flex justify-center items-center h-full'>
+                                                    <img
+                                                        src={product?.productId?.productImage[0]}
+                                                        alt={product?.productId?.productName}
+                                                        style={{
+                                                            maxHeight: '100px',
+                                                            width: 'auto',
+                                                            objectFit: 'cover'
+                                                        }}
+                                                    />
+                                                </div>
+                                          </td>
+                                          <td className='px-4 py-4'>
+                                              <p className='font-semibold' style={{ fontSize: '18px' }}>{product?.productId?.category}</p>
+                                              <p className='text-sm text-gray-600' style={{ fontSize: '17px' }}>{product?.productId?.productName}</p>
+                                          </td>
+                                          <td className='px-4 py-4'>{displayVNDCurrency(product?.productId?.sellingPrice)}</td>
+                                          <td className='px-4 py-4'>
+                                              <div className='flex items-center gap-2'>
+                                                  <button
+                                                      className='border border-red-600 text-red-600 px-3 py-1 rounded'
+                                                      onClick={() => decraseQty(product?._id, product?.quantity)}
+                                                  >
+                                                      -
+                                                  </button>
+                                                  <span>{product?.quantity}</span>
+                                                  <button
+                                                      className='border border-red-600 text-red-600 px-2.5 py-1 rounded'
+                                                      onClick={() => increaseQty(product?._id, product?.quantity)}
+                                                  >
+                                                      +
+                                                  </button>
+                                              </div>
+                                          </td>
+                                          <td className='px-4 py-4 text-red-600 font-semibold'>
+                                              {displayVNDCurrency(product?.productId?.sellingPrice * product?.quantity)}
+                                          </td>
+                                          <td className='px-9 py-4'>
+                                              <button
+                                                  className='text-red-600 hover:text-red-800'
+                                                  onClick={() => deleteCartProduct(product?._id)}
+                                              >
+                                                  <MdDelete size={25} />
+                                              </button>
+                                          </td>
+                                      </tr>
+                                  ))}
+                            <tr>
+                                <td colSpan="6" className='text-left px-9 py-7 font-semibold' style={{ fontSize: '20px' }}>
+                                    <div>
+                                        Tổng thanh toán ({totalQty} sản phẩm) : 
+                                        <span className='text-red-600'> {displayVNDCurrency(totalPrice)}</span>
                                     </div>
-                                )
-                            })
-                             
-                        ) : (
-                          data.map((product,index)=>{
-                           return(
-                            <div key={product?._id+"Add To Cart Loading"} className='w-full bg-white h-32 my-2 border border-slate-300  rounded grid grid-cols-[128px,1fr]'>
-                                <div className='w-32 h-32 bg-slate-200'>
-                                    <img src={product?.productId?.productImage[0]} className='w-full h-full object-scale-down mix-blend-multiply' />
-                                </div>
-                                <div className='px-4 py-2 relative'>
-                                    {/**delete product */}
-                                    <div className='absolute right-0 text-red-600 rounded-full p-2 hover:bg-red-600 hover:text-white cursor-pointer' onClick={()=>deleteCartProduct(product?._id)}>
-                                        <MdDelete/>
+                                    <div className='mt-4'>
+                                        <button
+                                            className='bg-red-600 text-white px-6 py-2 rounded hover:bg-red-800'
+                                            onClick={handlePayment}
+                                        >
+                                            Thanh Toán
+                                        </button>
                                     </div>
+                                </td>
+                            </tr>
 
-                                    <h2 className='text-lg lg:text-xl text-ellipsis line-clamp-1'>{product?.productId?.productName}</h2>
-                                    <p className='capitalize text-slate-500'>{product?.productId.category}</p>
-                                    <div className='flex items-center justify-between'>
-                                            <p className='text-red-600 font-medium text-lg'>{displayVNDCurrency(product?.productId?.sellingPrice)}</p>
-                                            <p className='text-slate-600 font-semibold text-lg'>{displayVNDCurrency(product?.productId?.sellingPrice  * product?.quantity)}</p>
-                                    </div>
-                                    <div className='flex items-center gap-3 mt-1'>
-                                        <button className='border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-6 h-6 flex justify-center items-center rounded ' onClick={()=>decraseQty(product?._id,product?.quantity)}>-</button>
-                                        <span>{product?.quantity}</span>
-                                        <button className='border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-6 h-6 flex justify-center items-center rounded ' onClick={()=>increaseQty(product?._id,product?.quantity)}>+</button>
-                                    </div>
-                                </div>    
-                            </div>
-                           )
-                          })
-                        )
-                    }
+                        </tbody>
+                    </table>
                 </div>
-
-
-                {/***summary  */}
-                {
-                    data[0] && (
-                        <div className='mt-5 lg:mt-0 w-full max-w-sm'>
-                        {
-                            loading ? (
-                            <div className='h-36 bg-slate-200 border border-slate-300 animate-pulse'>
-                                
-                            </div>
-                            ) : (
-                                <div className='h-36 bg-white'>
-                                    <h2 className='text-white bg-red-600 px-4 py-1'>Bản tóm tắt</h2>
-                                    <div className='flex items-center justify-between px-4 gap-2 font-medium text-lg text-slate-600'>
-                                        <p>Số lượng</p>
-                                        <p>{totalQty}</p>
-                                    </div>
-
-                                    <div className='flex items-center justify-between px-4 gap-2 font-medium text-lg text-slate-600'>
-                                        <p>Tổng tiền hàng</p>
-                                        <p>{displayVNDCurrency(totalPrice)}</p>    
-                                    </div>
-
-                                    <button className='bg-blue-600 p-2 text-white w-full mt-2' onClick={handlePayment}>Thanh toán</button>
-
-                                </div>
-                            )
-                        }
-                        </div>
-
-                    )
-                }
-                
+            )}
+            <div>
+                <h2 className="text-2xl font-bold mb-4 text-center">Gợi Ý Sản Phẩm</h2>
+                <HorizontalCardProduct category={"airpodes"} heading={"Top's Airpodes"}/>
+                <HorizontalCardProduct category={"watches"} heading={"Popular's Watches"}/>
+                <VerticalCardProduct category={"mobiles"} heading={"Mobiles"}/>
+                <VerticalCardProduct category={"Mouse"} heading={"Mouse"}/>
+                <VerticalCardProduct category={"televisions"} heading={"Televisions"}/>
+                <VerticalCardProduct category={"camera"} heading={"Camera & Photography"}/>
+                <VerticalCardProduct category={"earphones"} heading={"Wired Earphones"}/>
+                <VerticalCardProduct category={"speakers"} heading={"Bluetooth Speakers"}/>
+                <VerticalCardProduct category={"refrigerator"} heading={"Refrigerator"}/>
+                <VerticalCardProduct category={"trimmers"} heading={"Trimmers"}/>
+            </div>
         </div>
-    </div>
-  )
-}
+    );
+};
 
-export default Cart
+export default Cart;
