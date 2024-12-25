@@ -4,6 +4,7 @@ import BannerProduct from '../components/BannerProduct'
 import HorizontalCardProduct from '../components/HorizontalCardProduct'
 import VerticalCardProduct from '../components/VerticalCardProduct'
 import TopDisCountProduct from '../components/TopDiscountProduct'
+import HotProduct from '../components/HotProduct'
 
 const Home = () => {
   return (
@@ -12,6 +13,7 @@ const Home = () => {
       <BannerProduct/>
       
       <TopDisCountProduct heading={"Top Discount"}/>
+      <HotProduct heading={"Hot Products"}/>
       <HorizontalCardProduct category={"airpodes"} heading={"Top's Airpodes"}/>
       <HorizontalCardProduct category={"watches"} heading={"Popular's Watches"}/>
       <VerticalCardProduct category={"mobiles"} heading={"Mobiles"}/>

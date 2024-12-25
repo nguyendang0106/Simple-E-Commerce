@@ -4,7 +4,7 @@ import Context from '../context';
 import displayVNDCurrency from '../helpers/displayCurrency';
 import { MdDelete } from "react-icons/md";
 import { loadStripe } from '@stripe/stripe-js';
-import CategoryWiseProductDisplay from '../components/CategoryWiseProductDisplay';
+import CategoryWiseProductDisplayCart from '../components/CategoryWiseProductDisplayCart';
 
 const Cart = () => {
     const [data, setData] = useState([]);
@@ -231,8 +231,8 @@ const Cart = () => {
                 </div>
             )}
             {
-                data.length > 0 && data[0].productId?.category && (
-                    <CategoryWiseProductDisplay category={data[0].productId?.category} heading={"Có thể bạn cũng thích"} />
+                data.length > 0 && (
+                    <CategoryWiseProductDisplayCart heading={"Có thể bạn cũng thích"} />
                 )
             }
 

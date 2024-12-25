@@ -72,7 +72,7 @@ const AllOrder = () => {
                                   item.shipping_options.map((shipping,index)=>{
                                     return(
                                       <div key={shipping.shipping_rate} className='ml-1'>
-                                        Số tiền vận chuyển : {shipping.shipping_amount}
+                                        Số tiền vận chuyển : {displayVNDCurrency(shipping.shipping_amount)}
                                       </div>
                                     )
                                   })
@@ -82,7 +82,7 @@ const AllOrder = () => {
                         </div>
   
                         <div className='font-semibold ml-auto w-fit lg:text-lg'>
-                          Tổng số tiền : {item.totalAmount}
+                          Tổng số tiền : {displayVNDCurrency(item.totalAmount)}
                         </div>
                     </div>
                 </div>

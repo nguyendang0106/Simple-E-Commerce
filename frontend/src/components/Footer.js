@@ -5,7 +5,7 @@ import { FaInstagramSquare } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-orange-500 text-white">
+    <footer className="bg-red-600 text-white">
       <div className="container mx-auto py-8">
         <div className="flex flex-col items-center">
           {/* Logo and description */}
