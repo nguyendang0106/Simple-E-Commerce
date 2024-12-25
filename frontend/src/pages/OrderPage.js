@@ -5,7 +5,9 @@ import displayVNDCurrency from '../helpers/displayCurrency'
 
 const OrderPage = () => {
   const [data, setData] = useState([])
+  const [users, setUsers] = useState([])
 
+  // Fetch danh sách đơn hàng
   const fetchOrderDetails = async () => {
     const response = await fetch(SummaryApi.getOrder.url, {
       method: SummaryApi.getOrder.method,
@@ -18,9 +20,28 @@ const OrderPage = () => {
     console.log("order list", responseData)
   }
 
+  // Fetch danh sách người dùng
+  const fetchUsers = async () => {
+    const response = await fetch(SummaryApi.allUser.url, {
+      method: SummaryApi.allUser.method,
+      credentials: 'include'
+    })
+
+    const responseData = await response.json()
+    if (responseData.success) {
+      setUsers(responseData.data)
+    }
+  }
+
   useEffect(() => {
     fetchOrderDetails()
+    fetchUsers()
   }, [])
+
+  // Tìm thông tin người mua theo userId
+  const getUserDetails = (userId) => {
+    return users.find(user => user._id === userId) || {}
+  }
 
   return (
     <div>
@@ -33,6 +54,7 @@ const OrderPage = () => {
       <div className='p-4 w-full'>
         {
           data.map((item, index) => {
+            const buyerDetails = getUserDetails(item.userId) // Lấy thông tin người mua
             return (
               <div 
                 key={item.userId + index} 
@@ -64,6 +86,11 @@ const OrderPage = () => {
                       }
                     </div>
                     <div className='flex flex-col gap-6 p-6 bg-gray-50 rounded-lg shadow-md min-w-[320px]'>
+                      <div>
+                        <div className='text-xl font-medium mb-3'>Thông tin người mua:</div>
+                        <p className='ml-2 text-xl'>Tên: {buyerDetails.name || 'N/A'}</p>
+                        <p className='ml-2 text-xl'>Email: {buyerDetails.email || 'N/A'}</p>
+                      </div>
                       <div>
                         <div className='text-xl font-medium mb-3'>Thông tin thanh toán:</div>
                         <p className='ml-2 text-xl'>Phương thức thanh toán: {item.paymentDetails.payment_method_type[0]}</p>
