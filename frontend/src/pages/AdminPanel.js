@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { FaRegCircleUser } from "react-icons/fa6";
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import ROLE from '../common/role';
+import ProfileIcon from '../assest/ProfileIcon.jpg';
 
 const AdminPanel = () => {
     const user = useSelector(state => state?.user?.user)
@@ -24,7 +25,7 @@ const AdminPanel = () => {
                     <div className='text-5xl cursor-pointer relative flex justify-center'>
                         {
                         user?.profilePic ? (
-                            <img src={user?.profilePic} className='w-20 h-20 rounded-full' alt={user?.name} />
+                            <img src={ProfileIcon} className='w-20 h-20 rounded-full' alt={user?.name} />
                         ) : (
                             <FaRegCircleUser/>
                         )

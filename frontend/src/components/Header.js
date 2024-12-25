@@ -10,6 +10,7 @@ import { toast } from 'react-toastify'
 import { setUserDetails } from '../store/userSlice';
 import ROLE from '../common/role';
 import Context from '../context';
+import ProfileIcon from '../assest/ProfileIcon.jpg';
 
 
 const Header = () => {
@@ -61,7 +62,7 @@ const Header = () => {
       <div className='h-full container mx-auto flex items-center px-4 justify-between'>
           <div className='' title="Trang chủ">
                 <Link to={"/"}>
-                    <Logo w={40} h={70}/>
+                    <Logo w={50} h={80}/>
                 </Link>
           </div>
 
@@ -82,7 +83,7 @@ const Header = () => {
                       <div className='text-3xl cursor-pointer relative flex justify-center' onClick={()=>setMenuDisplay(preve => !preve)}>
                         {
                           user?.profilePic ? (
-                            <img src={user?.profilePic} className='w-10 h-10 rounded-full' alt={user?.name} />
+                            <img src={ProfileIcon} className='w-14 h-14 rounded-full' alt={user?.name} />
                           ) : (
                             <FaRegCircleUser/>
                           )
