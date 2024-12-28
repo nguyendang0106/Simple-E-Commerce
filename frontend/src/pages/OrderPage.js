@@ -59,7 +59,7 @@ const OrderPage = () => {
               <div 
                 key={item.userId + index} 
                 className='p-6 mb-8 bg-white rounded-lg shadow-lg'>
-                <p className='font-medium text-2xl mb-4'>{moment(item.createdAt).format('LL')}</p>
+                <p className='font-medium text-2xl mb-4'>{moment(item.createdAt).format('LLL')}</p>
                 <div className='border rounded-lg overflow-hidden'>
                   <div className='flex flex-col lg:flex-row justify-between gap-6'>
                     <div className='grid gap-4 flex-1'>

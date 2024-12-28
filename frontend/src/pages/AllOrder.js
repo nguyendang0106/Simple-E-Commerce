@@ -95,7 +95,7 @@ const AllOrder = () => {
                         return (
                             <div key={item.userId + index} className="mb-4 border rounded p-4">
                                 <div className="flex justify-between items-center">
-                                    <p className='font-medium text-lg'>{moment(item.createdAt).format('LLL')}</p>
+                                   <p className='font-medium text-2xl mb-4'>{moment(item.createdAt).format('LLL')}</p>
 
                                    {/* Nút duyệt đơn hàng */}
                                     <div className="mt-4">
