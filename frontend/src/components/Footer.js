@@ -1,7 +1,7 @@
 import React from 'react';
-import { SiShopee } from 'react-icons/si';
 import { FaFacebookSquare } from 'react-icons/fa';
 import { FaInstagramSquare } from "react-icons/fa";
+import Logo from './Logo'
 
 const Footer = () => {
   return (
@@ -11,7 +11,7 @@ const Footer = () => {
           {/* Logo and description */}
           <div className="text-center mb-4 flex items-center space-x-2">
             <i className="text-white text-2xl">
-              <SiShopee />
+            <Logo w={50} h={80}/>
             </i>
             <h2 className="text-2xl font-bold">ShopSimplify</h2>
           </div>
