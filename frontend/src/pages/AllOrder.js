@@ -6,20 +6,34 @@ import displayVNDCurrency from '../helpers/displayCurrency'
 const AllOrder = () => {
     const [data, setData] = useState([])
     const [users, setUsers] = useState([])
-    const [expandedOrderId, setExpandedOrderId] = useState(null) // Trạng thái theo dõi đơn hàng được mở
+    const [expandedOrderId, setExpandedOrderId] = useState(null)
+
+    // Lấy trạng thái duyệt từ localStorage
+    const getLocalApprovedStatus = () => {
+      const savedStatus = localStorage.getItem('approvedOrders');
+      return savedStatus ? JSON.parse(savedStatus) : {};
+    };
+
+    // Lưu trạng thái duyệt vào localStorage
+    const saveLocalApprovedStatus = (status) => {
+        localStorage.setItem('approvedOrders', JSON.stringify(status));
+    };
 
     // Fetch danh sách đơn hàng
     const fetchOrderDetails = async () => {
-        const response = await fetch(SummaryApi.allOrder.url, {
-            method: SummaryApi.allOrder.method,
-            credentials: 'include',
-        })
+      const response = await fetch(SummaryApi.allOrder.url, {
+          method: SummaryApi.allOrder.method,
+          credentials: 'include',
+      });
+      const responseData = await response.json();
 
-        const responseData = await response.json()
-
-        setData(responseData.data)
-        console.log("order list", responseData)
-    }
+      const localApprovedStatus = getLocalApprovedStatus();
+      const initializedData = responseData.data.map((order) => ({
+          ...order,
+          localApproved: localApprovedStatus[order._id] || false, // Khôi phục trạng thái duyệt từ localStorage
+      }));
+      setData(initializedData);
+    };
 
     // Fetch danh sách người dùng
     const fetchAllUsers = async () => {
@@ -27,7 +41,6 @@ const AllOrder = () => {
             method: SummaryApi.allUser.method,
             credentials: 'include',
         })
-
         const responseData = await response.json()
         if (responseData.success) {
             setUsers(responseData.data)
@@ -35,8 +48,8 @@ const AllOrder = () => {
     }
 
     useEffect(() => {
-        fetchOrderDetails()
-        fetchAllUsers()
+        fetchOrderDetails();
+        fetchAllUsers();
     }, [])
 
     // Ánh xạ userId với thông tin người dùng
@@ -44,7 +57,23 @@ const AllOrder = () => {
         return users.find((user) => user._id === userId) || {}
     }
 
-    // Toggle trạng thái mở/đóng thông tin đơn hàng
+    const toggleApproveOrder = (orderId) => {
+      setData((prevData) => {
+          const updatedData = prevData.map((order) =>
+              order._id === orderId
+                  ? { ...order, localApproved: !order.localApproved }
+                  : order
+          );
+
+          // Cập nhật trạng thái vào localStorage
+          const localApprovedStatus = getLocalApprovedStatus();
+          localApprovedStatus[orderId] = !localApprovedStatus[orderId];
+          saveLocalApprovedStatus(localApprovedStatus);
+
+          return updatedData;
+      });
+    };
+
     const toggleOrderDetails = (orderId) => {
         setExpandedOrderId(expandedOrderId === orderId ? null : orderId)
     }
@@ -61,11 +90,28 @@ const AllOrder = () => {
                 {
                     data.map((item, index) => {
                         const userDetails = getUserDetails(item.userId)
-                        const isExpanded = expandedOrderId === item._id // Kiểm tra xem đơn hàng có đang được mở không
+                        const isExpanded = expandedOrderId === item._id
+                        const isApproved = item.localApproved;
                         return (
                             <div key={item.userId + index} className="mb-4 border rounded p-4">
                                 <div className="flex justify-between items-center">
-                                  <p className='font-medium text-lg'>{moment(item.createdAt).format('LLL')}</p>
+                                    <p className='font-medium text-lg'>{moment(item.createdAt).format('LLL')}</p>
+
+                                   {/* Nút duyệt đơn hàng */}
+                                    <div className="mt-4">
+                                        <button
+                                            onClick={() => toggleApproveOrder(item._id)}
+                                            className={`px-4 py-2 rounded ${
+                                                isApproved
+                                                    ? 'bg-gray-400 text-white hover:bg-gray-500'
+                                                    : 'bg-green-500 text-white hover:bg-green-600'
+                                            }`}
+                                        >
+                                            {isApproved ? 'Đã duyệt' : 'Duyệt đơn hàng'}
+                                        </button>
+                                    </div>
+
+                                    {/* Nút hiển thị/ẩn thông tin */}
                                     <button
                                         onClick={() => toggleOrderDetails(item._id)}
                                         className="text-blue-500 hover:underline"
@@ -74,7 +120,7 @@ const AllOrder = () => {
                                     </button>
                                 </div>
 
-                                {isExpanded && ( // Hiển thị chi tiết đơn hàng nếu trạng thái được mở
+                                {isExpanded && (
                                     <div className='mt-4'>
                                         <div className='flex flex-col lg:flex-row justify-between'>
                                             <div className='grid gap-1'>
@@ -136,4 +182,3 @@ const AllOrder = () => {
 }
 
 export default AllOrder
-
