@@ -4,6 +4,9 @@ import { FaRegCircleUser } from "react-icons/fa6";
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import ROLE from '../common/role';
 import ProfileIcon from '../assest/ProfileIcon.jpg';
+import { FaUsers } from "react-icons/fa6";
+import { AiFillProduct } from "react-icons/ai";
+import { BiSolidShoppingBags } from "react-icons/bi";
 
 const AdminPanel = () => {
     const user = useSelector(state => state?.user?.user)
@@ -38,9 +41,26 @@ const AdminPanel = () => {
                  {/***navigation */}       
                 <div>   
                     <nav className='grid p-4'>
-                        <Link to={"all-users"} className='px-2 py-1 hover:bg-slate-100'>Tất cả người dùng</Link>
-                        <Link to={"all-products"} className='px-2 py-1 hover:bg-slate-100'>Tất cả sản phẩm</Link>
-                        <Link to={"all-orders"} className='px-2 py-1 hover:bg-slate-100'>Tất cả đơn hàng</Link>
+                        <Link to={"all-users"} className='px-2 py-1 hover:bg-slate-100'>
+                            <div className='flex items-center gap-2'>
+                                <FaUsers/>
+                                <span>Tất cả người dùng</span>
+                            </div>
+                        </Link>
+
+                        <Link to={"all-products"} className='px-2 py-1 hover:bg-slate-100'>
+                            <div className='flex items-center gap-2'>
+                                <AiFillProduct/>
+                                <span>Tất cả sản phẩm</span>
+                            </div>
+                        </Link>
+
+                        <Link to={"all-orders"} className='px-2 py-1 hover:bg-slate-100'>
+                            <div className='flex items-center gap-2'>
+                                <BiSolidShoppingBags/>
+                                <span>Tất cả đơn hàng</span>
+                            </div>
+                        </Link>
                     </nav>
                 </div>  
         </aside>

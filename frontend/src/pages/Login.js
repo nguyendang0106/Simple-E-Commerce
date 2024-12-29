@@ -104,7 +104,7 @@ const Login = () => {
                                 </div>
                         </div>
                         <Link to={'/forgot-password'} className='block w-fit ml-auto hover:underline hover:text-red-600'>
-                                Quên mật khẩu?
+                                {/* Quên mật khẩu? */}
                         </Link>
                     </div>
 
