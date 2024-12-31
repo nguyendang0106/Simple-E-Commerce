@@ -2,8 +2,8 @@ const productModel = require("../../models/productModel")
 
 const getCategoryWiseProduct = async(req,res)=>{
     try{
-        const { category } = req?.body || req?.query
-        const product = await productModel.find({ category })
+        const { category } = req?.body || req?.query // Lấy giá trị category từ phần thân yêu cầu (req.body) hoặc tham số truy vấn (req.query).
+        const product = await productModel.find({ category }) // Tìm tất cả các sản phẩm có trường category khớp với giá trị được cung cấp.
 
         res.json({
             data : product,

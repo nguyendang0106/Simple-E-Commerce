@@ -12,3 +12,5 @@ const uploadProductPermission = async(userId) => {
 
 
 module.exports = uploadProductPermission
+
+// chỉ admin mới có quyền upload sản phẩm.

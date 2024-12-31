@@ -4,10 +4,10 @@ import AdminEditProduct from './AdminEditProduct';
 import displayVNDCurrency from '../helpers/displayCurrency';
 
 const AdminProductCard = ({
-    data,
-    fetchdata
+    data, // Dữ liệu của sản phẩm hiện tại (thông tin sản phẩm sẽ được hiển thị trong thẻ).
+    fetchdata // tải lại danh sách sản phẩm (sau khi chỉnh sửa)
 }) => {
-    const [editProduct,setEditProduct] = useState(false)
+    const [editProduct,setEditProduct] = useState(false) // editProduct: Quản lý trạng thái mở/đóng của form chỉnh sửa sản phẩm.
 
   return (
     <div className='bg-white p-4 rounded '>

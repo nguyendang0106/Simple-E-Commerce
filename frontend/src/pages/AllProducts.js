@@ -4,18 +4,20 @@ import SummaryApi from '../common'
 import AdminProductCard from '../components/AdminProductCard'
 
 const AllProducts = () => {
-  const [openUploadProduct,setOpenUploadProduct] = useState(false)
-  const [allProduct,setAllProduct] = useState([])
+  const [openUploadProduct,setOpenUploadProduct] = useState(false) // Xác định trạng thái mở/đóng của modal tải sản phẩm. Mặc định là false.
+  const [allProduct,setAllProduct] = useState([]) // Lưu danh sách sản phẩm được lấy từ API. Mặc định là mảng rỗng [].
 
+  // Gửi yêu cầu đến API (SummaryApi.allProduct) để lấy danh sách tất cả sản phẩm từ server.
   const fetchAllProduct = async() =>{
     const response = await fetch(SummaryApi.allProduct.url)
-    const dataResponse = await response.json()
+    const dataResponse = await response.json() // Chuyển dữ liệu nhận được từ API sang dạng JSON.
 
     console.log("product data",dataResponse)
 
-    setAllProduct(dataResponse?.data || [])
+    setAllProduct(dataResponse?.data || []) // Cập nhật trạng thái allProduct với dữ liệu trả về từ API.
   }
 
+  // Tự động gọi fetchAllProduct ngay khi component được mount.
   useEffect(()=>{
     fetchAllProduct()
   },[])

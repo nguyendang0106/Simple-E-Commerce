@@ -56,7 +56,7 @@ const SignUp = () => {
               headers : {
                   "content-type" : "application/json"
               },
-              body : JSON.stringify(data)
+              body : JSON.stringify(data) // gửi dữ liệu JSON lên API
             })
       
             const dataApi = await dataResponse.json()

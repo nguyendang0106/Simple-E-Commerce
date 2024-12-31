@@ -16,3 +16,5 @@ const productSchema = mongoose.Schema({
 const productModel = mongoose.model("product",productSchema)
 
 module.exports = productModel
+
+// Lưu trữ thông tin sản phẩm.

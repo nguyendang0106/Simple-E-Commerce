@@ -7,13 +7,14 @@ import { loadStripe } from '@stripe/stripe-js';
 import CategoryWiseProductDisplayCart from '../components/CategoryWiseProductDisplayCart';
 
 const Cart = () => {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const context = useContext(Context);
-    const loadingCart = new Array(4).fill(null);
+    const [data, setData] = useState([]); // Lưu trữ dữ liệu giỏ hàng.
+    const [loading, setLoading] = useState(false); // Xác định trạng thái đang tải dữ liệu.
+    const context = useContext(Context); // Sử dụng Context để lấy dữ liệu giỏ hàng.
+    const loadingCart = new Array(4).fill(null); // Mảng 4 phần tử null để tạo skeleton loading.
 
+    // Hàm fetch dữ liệu giỏ hàng.
     const fetchData = async () => {
-        const response = await fetch(SummaryApi.addToCartProductView.url, {
+        const response = await fetch(SummaryApi.addToCartProductView.url, { // Gửi yêu cầu đến API để lấy dữ liệu giỏ hàng.
             method: SummaryApi.addToCartProductView.method,
             credentials: 'include',
             headers: {
@@ -28,18 +29,21 @@ const Cart = () => {
         }
     };
 
+    // Gọi hàm fetchData khi component được render lần đầu tiên.
     const handleLoading = async () => {
         await fetchData();
     };
 
+    // Gọi hàm handleLoading khi component được render lần đầu tiên.
     useEffect(() => {
         setLoading(true);
         handleLoading();
         setLoading(false);
     }, []);
 
+    // Hàm tăng số lượng sản phẩm trong giỏ hàng.
     const increaseQty = async (id, qty) => {
-        const response = await fetch(SummaryApi.updateCartProduct.url, {
+        const response = await fetch(SummaryApi.updateCartProduct.url, { // Gửi yêu cầu đến API để cập nhật số lượng sản phẩm trong giỏ hàng.
             method: SummaryApi.updateCartProduct.method,
             credentials: 'include',
             headers: {
@@ -58,9 +62,10 @@ const Cart = () => {
         }
     };
 
+    // Hàm giảm số lượng sản phẩm trong giỏ hàng.
     const decraseQty = async (id, qty) => {
         if (qty >= 2) {
-            const response = await fetch(SummaryApi.updateCartProduct.url, {
+            const response = await fetch(SummaryApi.updateCartProduct.url, { // Gửi yêu cầu đến API để cập nhật số lượng sản phẩm trong giỏ hàng.
                 method: SummaryApi.updateCartProduct.method,
                 credentials: 'include',
                 headers: {
@@ -80,8 +85,9 @@ const Cart = () => {
         }
     };
 
+    // Hàm xóa sản phẩm khỏi giỏ hàng.
     const deleteCartProduct = async (id) => {
-        const response = await fetch(SummaryApi.deleteCartProduct.url, {
+        const response = await fetch(SummaryApi.deleteCartProduct.url, { // Gửi yêu cầu đến API để xóa sản phẩm khỏi giỏ hàng.
             method: SummaryApi.deleteCartProduct.method,
             credentials: 'include',
             headers: {
@@ -100,9 +106,10 @@ const Cart = () => {
         }
     };
 
+    // Hàm xử lý thanh toán.
     const handlePayment = async () => {
-        const stripePromise = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
-        const response = await fetch(SummaryApi.payment.url, {
+        const stripePromise = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY); // Lấy public key từ biến môi trường.
+        const response = await fetch(SummaryApi.payment.url, { // Gửi yêu cầu đến API để thanh toán.
             method: SummaryApi.payment.method,
             credentials: 'include',
             headers: {
@@ -122,8 +129,8 @@ const Cart = () => {
         console.log("payment response", responseData);
     };
 
-    const totalQty = data.reduce((previousValue, currentValue) => previousValue + currentValue.quantity, 0);
-    const totalPrice = data.reduce((preve, curr) => preve + (curr.quantity * curr?.productId?.sellingPrice), 0);
+    const totalQty = data.reduce((previousValue, currentValue) => previousValue + currentValue.quantity, 0); // Tính tổng số lượng sản phẩm trong giỏ hàng.
+    const totalPrice = data.reduce((preve, curr) => preve + (curr.quantity * curr?.productId?.sellingPrice), 0); // Tính tổng tiền trong giỏ hàng.
 
     return (
         <div className='container mx-auto p-4'>

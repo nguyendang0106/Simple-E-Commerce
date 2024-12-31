@@ -9,7 +9,7 @@ import Context from '../context';
 
 const Login = () => {
     const [showPassword,setShowPassword] = useState(false)
-    const [data,setData] = useState({
+    const [data,setData] = useState({ // data: Chứa thông tin email và mật khẩu được nhập vào từ người dùng.
         email : "",
         password : ""
     })
@@ -17,26 +17,27 @@ const Login = () => {
     const { fetchUserDetails, fetchUserAddToCart } = useContext(Context)
 
     const handleOnChange = (e) =>{
-        const { name , value } = e.target
+        const { name , value } = e.target // Sử dụng destructuring để lấy hai thuộc tính name và value từ phần tử HTML đang kích hoạt sự kiện.
 
         setData((preve)=>{
             return{
-                ...preve,
-                [name] : value
+                ...preve, // Sao chép toàn bộ dữ liệu hiện tại trong data để giữ nguyên các giá trị không thay đổi.
+                [name] : value // Gán giá trị value (giá trị người dùng vừa nhập) cho khóa tương ứng.
             }
         })
     }
 
+    // Khi nhấn nút submit, hàm này sẽ được gọi.
     const handleSubmit = async(e) =>{
-        e.preventDefault()
+        e.preventDefault() // Ngăn chặn hành vi mặc định của trình duyệt khi gửi form (ví dụ: reload trang).
 
-        const dataResponse = await fetch(SummaryApi.signIn.url,{
+        const dataResponse = await fetch(SummaryApi.signIn.url,{ // Sử dụng await để thực hiện các tác vụ bất đồng bộ (ví dụ: gửi yêu cầu đến API).
             method : SummaryApi.signIn.method,
             credentials : 'include',
             headers : {
-                "content-type" : "application/json"
+                "content-type" : "application/json" // Xác định kiểu dữ liệu gửi đi.
             },
-            body : JSON.stringify(data)
+            body : JSON.stringify(data) // Chuyển đổi dữ liệu từ kiểu object data sang kiểu JSON.
         })
 
         const dataApi = await dataResponse.json()

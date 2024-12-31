@@ -17,7 +17,7 @@ import { FaAngleLeft } from "react-icons/fa6";
 
 
 const BannerProduct = () => {
-    const [currentImage,setCurrentImage] = useState(0)
+    const [currentImage,setCurrentImage] = useState(0) // Lưu chỉ số của ảnh hiện tại đang được hiển thị (bắt đầu từ 0).
 
     const desktopImages = [
         image1,
@@ -36,20 +36,20 @@ const BannerProduct = () => {
     ]
 
     const nextImage = () =>{
-        if(desktopImages.length - 1 > currentImage){
+        if(desktopImages.length - 1 > currentImage){ // Kiểm tra nếu chưa phải ảnh cuối, tăng currentImage lên 1.
             setCurrentImage(preve => preve + 1)
         }
     }
 
     const preveImage = () =>{
-        if(currentImage != 0){
+        if(currentImage != 0){ // Kiểm tra nếu chưa phải ảnh đầu tiên, giảm currentImage xuống 1.
             setCurrentImage(preve => preve - 1)
         }
     }
 
 
     useEffect(()=>{
-        const interval = setInterval(()=>{
+        const interval = setInterval(()=>{ // Sử dụng setInterval để chuyển ảnh tự động sau mỗi 5 giây.
             if(desktopImages.length - 1 > currentImage){
                 nextImage()
             }else{
@@ -71,7 +71,7 @@ const BannerProduct = () => {
                     </div>
                 </div>
 
-                {/**desktop and tablet version */}
+                {/**desktop and tablet version: Desktop chỉ hiển thị khi màn hình >= 768px */}
               <div className='hidden md:flex h-full w-full overflow-hidden'>
                 {
                         desktopImages.map((imageURl,index)=>{
@@ -85,7 +85,7 @@ const BannerProduct = () => {
               </div>
 
 
-                {/**mobile version */}
+                {/**mobile version: Mobile chỉ hiển thị khi màn hình < 768px. */}
                 <div className='flex h-full w-full overflow-hidden md:hidden'>
                 {
                         mobileImages.map((imageURl,index)=>{

@@ -36,3 +36,5 @@ const orderSchema = new mongoose.Schema({
 const orderModel = mongoose.model('order',orderSchema)
 
 module.exports = orderModel
+
+// Lưu trữ thông tin đơn đặt hàng.

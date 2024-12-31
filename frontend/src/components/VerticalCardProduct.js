@@ -7,21 +7,24 @@ import addToCart from '../helpers/addToCart'
 import Context from '../context'
 import scrollTop from '../helpers/scrollTop'
 
-const VerticalCardProduct = ({category, heading}) => {
-    const [data,setData] = useState([])
-    const [loading,setLoading] = useState(true)
-    const loadingList = new Array(13).fill(null)
+const VerticalCardProduct = ({category, heading}) => { // category: Danh mục sản phẩm (dùng để fetch dữ liệu sản phẩm theo danh mục). heading: Tiêu đề của danh mục sản phẩm.
+    const [data,setData] = useState([]) // data: Chứa danh sách sản phẩm được fetch về từ API.
+    const [loading,setLoading] = useState(true) // loading: Xác định trạng thái tải dữ liệu (đang tải hay đã xong).
+    const loadingList = new Array(13).fill(null) // Mảng có 13 phần tử null để tạo các phần tử skeleton loading.
 
-    const [scroll,setScroll] = useState(0)
-    const scrollElement = useRef()
+    const [scroll,setScroll] = useState(0) // scroll: Quản lý trạng thái cuộn của danh sách.
+    const scrollElement = useRef() // scrollElement: Ref trỏ đến phần tử cuộn ngang (container chứa danh sách sản phẩm).
 
+    // Sử dụng Context để lấy dữ liệu giỏ hàng.
     const { fetchUserAddToCart } = useContext(Context)
 
+    // Hàm thêm sản phẩm vào giỏ hàng.
     const handleAddToCart = async(e,id)=>{
        await addToCart(e,id)
        fetchUserAddToCart()
     }
 
+    // Hàm fetch dữ liệu sản phẩm theo danh mục.
     const fetchData = async() =>{
         setLoading(true)
         const categoryProduct = await fetchCategoryWiseProduct(category)

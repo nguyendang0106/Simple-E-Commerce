@@ -15,3 +15,5 @@ const addToCart = mongoose.Schema({
 const addToCartModel = mongoose.model("addToCart",addToCart)
 
 module.exports = addToCartModel
+
+// Lưu trữ thông tin sản phẩm trong giỏ hàng của người dùng.

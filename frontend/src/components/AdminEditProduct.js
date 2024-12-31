@@ -9,11 +9,12 @@ import SummaryApi from '../common';
 import {toast} from 'react-toastify'
 
 const AdminEditProduct = ({
-    onClose,
-    productData,
-    fetchdata
+    onClose, // đóng form chỉnh sửa.
+    productData, // Dữ liệu sản phẩm cần chỉnh sửa.
+    fetchdata // tải lại danh sách sản phẩm sau khi chỉnh sửa.
   }) => {
 
+  // Trạng thái lưu thông tin sản phẩm.  
   const [data,setData] = useState({
     ...productData,
     productName : productData?.productName,
@@ -24,10 +25,11 @@ const AdminEditProduct = ({
     price : productData?.price,
     sellingPrice : productData?.sellingPrice
   })
-  const [openFullScreenImage,setOpenFullScreenImage] = useState(false)
-  const [fullScreenImage,setFullScreenImage] = useState("")
+  const [openFullScreenImage,setOpenFullScreenImage] = useState(false) // Dùng để bật/tắt chế độ hiển thị toàn màn hình hình ảnh.
+  const [fullScreenImage,setFullScreenImage] = useState("") // Lưu URL hình ảnh cần hiển thị toàn màn hình.
 
 
+  // Lấy giá trị từ input (name và value) và cập nhật vào trạng thái data.
   const handleOnChange = (e)=>{
       const { name, value} = e.target
 
@@ -39,6 +41,7 @@ const AdminEditProduct = ({
       })
   }
 
+  // Tải hình ảnh sản phẩm lên Cloudinary.
   const handleUploadProduct = async(e) => {
     const file = e.target.files[0]
     const uploadImageCloudinary = await uploadImage(file)
@@ -46,11 +49,12 @@ const AdminEditProduct = ({
     setData((preve)=>{
       return{
         ...preve,
-        productImage : [ ...preve.productImage, uploadImageCloudinary.url]
+        productImage : [ ...preve.productImage, uploadImageCloudinary.url] // Thêm URL hình ảnh mới vào mảng hình ảnh sản phẩm.
       }
     })
   }
 
+  // Xóa hình ảnh khỏi trạng thái data.
   const handleDeleteProductImage = async(index)=>{
     console.log("image index",index)
     
@@ -69,8 +73,9 @@ const AdminEditProduct = ({
 
   {/**upload product */}
   const handleSubmit = async(e) =>{
-    e.preventDefault()
+    e.preventDefault() // Ngăn chặn hành vi mặc định của trình duyệt khi gửi form (ví dụ: reload trang).
     
+    // Gửi yêu cầu cập nhật sản phẩm đến API.
     const response = await fetch(SummaryApi.updateProduct.url,{
       method : SummaryApi.updateProduct.method,
       credentials : 'include',

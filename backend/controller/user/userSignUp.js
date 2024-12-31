@@ -24,7 +24,7 @@ async function userSignUpController(req,res){
         }
 
         const salt = bcrypt.genSaltSync(10);
-        const hashPassword = await bcrypt.hashSync(password, salt);
+        const hashPassword = await bcrypt.hashSync(password, salt); // Băm mật khẩu
 
         if(!hashPassword){
             throw new Error("Có lỗi xảy ra")
@@ -48,7 +48,7 @@ async function userSignUpController(req,res){
 
 
     }catch(err){
-        res.json({
+        res.json({ // Mọi lỗi trong quá trình xử lý đều được trả về dưới dạng JSON.
             message : err.message || err,
             error : true,
             success : false,

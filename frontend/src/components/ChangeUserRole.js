@@ -12,14 +12,19 @@ const ChangeUserRole = ({
     onClose,
     callFunc,
 }) => {
+    // Mục đích: Quản lý trạng thái vai trò được chọn trong dropdown (mặc định là vai trò hiện tại).
+    // Khi thay đổi: Cập nhật giá trị mới khi người dùng chọn vai trò khác từ menu thả xuống.
     const [userRole,setUserRole] = useState(role)
 
+    // Ghi nhận vai trò mới được chọn từ dropdown.
+    // Cập nhật giá trị của userRole bằng setUserRole.
     const handleOnChangeSelect = (e) => {
         setUserRole(e.target.value)
 
         console.log(e.target.value)
     }
 
+    // Mục đích: Gửi yêu cầu đến API để cập nhật vai trò người dùng.
     const updateUserRole = async() =>{
         const fetchResponse = await fetch(SummaryApi.updateUser.url,{
             method : SummaryApi.updateUser.method,
@@ -37,8 +42,8 @@ const ChangeUserRole = ({
 
         if(responseData.success){
             toast.success(responseData.message)
-            onClose()
-            callFunc()
+            onClose() // Đây là một hàm callback được gọi để đóng cửa sổ/modal sau khi cập nhật thành công
+            callFunc() // để cập nhật UI ngay sau khi cập nhật vai trò
         }
 
         console.log("role updated",responseData)

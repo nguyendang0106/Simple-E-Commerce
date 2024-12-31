@@ -41,3 +41,6 @@ async function authToken(req,res,next){
 
 
 module.exports = authToken
+
+// Middleware này kiểm tra token JWT trong cookie của người dùng để đảm bảo rằng 
+// người dùng đã đăng nhập hợp lệ trước khi truy cập vào các route cần bảo mật.

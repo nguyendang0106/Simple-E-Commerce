@@ -93,3 +93,8 @@ const SummaryApi = {
 
 
 export default SummaryApi
+
+// SummaryApi là một tập hợp các cấu hình endpoint API, mỗi endpoint được 
+// biểu diễn dưới dạng một đối tượng với hai thuộc tính:
+// url: Đường dẫn đầy đủ của API endpoint, được kết hợp từ backendDomin và đường dẫn cụ thể (/api/...).
+// method: Phương thức HTTP sử dụng (GET, POST, v.v.).

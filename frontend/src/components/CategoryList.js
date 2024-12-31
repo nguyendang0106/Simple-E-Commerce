@@ -3,19 +3,20 @@ import SummaryApi from '../common'
 import { Link } from 'react-router-dom'
 
 const CategoryList = () => {
-    const [categoryProduct,setCategoryProduct] = useState([])
-    const [loading,setLoading] = useState(false)
+    const [categoryProduct,setCategoryProduct] = useState([]) // Lưu trữ dữ liệu danh mục sản phẩm lấy từ API.
+    const [loading,setLoading] = useState(false) // Xác định trạng thái đang tải dữ liệu.
 
-    const categoryLoading = new Array(13).fill(null)
+    const categoryLoading = new Array(13).fill(null) // Mảng có 13 phần tử null để tạo các phần tử skeleton loading.
 
     const fetchCategoryProduct = async() =>{
-        setLoading(true)
-        const response = await fetch(SummaryApi.categoryProduct.url)
-        const dataResponse = await response.json()
-        setLoading(false)
-        setCategoryProduct(dataResponse.data)
+        setLoading(true) // Bắt đầu trạng thái loading
+        const response = await fetch(SummaryApi.categoryProduct.url) // Gọi API từ SummaryApi.categoryProduct.url để lấy danh sách danh mục sản phẩm.
+        const dataResponse = await response.json() // Lấy kết quả JSON
+        setLoading(false) // Kết thúc trạng thái loading
+        setCategoryProduct(dataResponse.data) // Lưu dữ liệu vào trạng thái
     }
 
+    // gọi fetchCategoryProduct khi component được render lần đầu tiên.
     useEffect(()=>{ 
         fetchCategoryProduct()
     },[])

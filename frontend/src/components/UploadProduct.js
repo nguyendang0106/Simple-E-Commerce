@@ -12,7 +12,7 @@ const UploadProduct = ({
     onClose,
     fetchData
 }) => {
-  const [data,setData] = useState({
+  const [data,setData] = useState({ // data: Trạng thái lưu thông tin sản phẩm,
     productName : "",
     brandName : "",
     category : "",
@@ -21,9 +21,10 @@ const UploadProduct = ({
     price : "",
     sellingPrice : ""
   })
-  const [openFullScreenImage,setOpenFullScreenImage] = useState(false)
-  const [fullScreenImage,setFullScreenImage] = useState("")
+  const [openFullScreenImage,setOpenFullScreenImage] = useState(false) // Quản lý trạng thái hiển thị hình ảnh toàn màn hình.
+  const [fullScreenImage,setFullScreenImage] = useState("") // URL của hình ảnh được hiển thị toàn màn hình.
 
+  // Lấy giá trị từ input (name và value) và cập nhật vào trạng thái data.
   const handleOnChange = (e)=>{
       const { name, value} = e.target
 
@@ -35,28 +36,32 @@ const UploadProduct = ({
       })
   }
 
+  // Tải hình ảnh sản phẩm lên Cloudinary.
   const handleUploadProduct = async(e) => {
-    const file = e.target.files[0]
-    const uploadImageCloudinary = await uploadImage(file)
+    const file = e.target.files[0] // Lấy tệp hình ảnh từ input.
+    const uploadImageCloudinary = await uploadImage(file) // Gọi hàm uploadImage để tải hình ảnh lên Cloudinary.
 
+    // Cập nhật trạng thái data với URL hình ảnh mới.
     setData((preve)=>{
       return{
         ...preve,
-        productImage : [ ...preve.productImage, uploadImageCloudinary.url]
+        productImage : [ ...preve.productImage, uploadImageCloudinary.url] // Thêm URL hình ảnh mới vào mảng hình ảnh sản phẩm.
       }
     })
   }
 
+  // Xóa hình ảnh khỏi trạng thái data.
   const handleDeleteProductImage = async(index)=>{
     console.log("image index",index)
     
-    const newProductImage = [...data.productImage]
-    newProductImage.splice(index,1)
+    const newProductImage = [...data.productImage] // Sao chép mảng hình ảnh sản phẩm.
+    newProductImage.splice(index,1) // Xóa hình ảnh tại vị trí index.
 
+    // Cập nhật trạng thái data với mảng hình ảnh mới.
     setData((preve)=>{
       return{
         ...preve,
-        productImage : [...newProductImage]
+        productImage : [...newProductImage] // Cập nhật mảng hình ảnh mới.
       }
     })
     
@@ -67,6 +72,7 @@ const UploadProduct = ({
   const handleSubmit = async(e) =>{
     e.preventDefault()
     
+    // Gửi yêu cầu POST đến API để tải sản phẩm lên.
     const response = await fetch(SummaryApi.uploadProduct.url,{
       method : SummaryApi.uploadProduct.method,
       credentials : 'include',
@@ -76,12 +82,12 @@ const UploadProduct = ({
       body : JSON.stringify(data)
     })
 
-    const responseData = await response.json()
+    const responseData = await response.json() // Chuyển dữ liệu nhận được từ API sang dạng JSON.
 
     if(responseData.success){
         toast.success(responseData?.message)
         onClose()
-        fetchData()
+        fetchData() // Gọi hàm fetchData để cập nhật danh sách sản phẩm.
     }
 
 

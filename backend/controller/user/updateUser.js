@@ -2,11 +2,13 @@ const userModel = require("../../models/userModel")
 
 async function updateUser(req,res){
     try{
+        // là ID của người dùng hiện tại, có thể lấy từ thông tin xác thực (JWT token) khi người dùng đã đăng nhập.
         const sessionUser = req.userId
 
+        // Lấy thông tin cần cập nhật từ req.body.
         const { userId , email, name, role} = req.body
 
-        const payload = {
+        const payload = { // payload là đối tượng chứa thông tin người dùng cần cập nhật.
             ...( email && { email : email}),
             ...( name && { name : name}),
             ...( role && { role : role}),
@@ -17,6 +19,7 @@ async function updateUser(req,res){
         console.log("user.role",user.role)
 
 
+        // Cập nhật người dùng có userId trong cơ sở dữ liệu với payload đã chuẩn bị trước đó (dữ liệu cần cập nhật).
         const updateUser = await userModel.findByIdAndUpdate(userId,payload)
 
         

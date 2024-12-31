@@ -4,21 +4,23 @@ import SummaryApi from '../common'
 import VerticalCard from '../components/VerticalCard'
 
 const SearchProduct = () => {
-    const query = useLocation()
-    const [data,setData] = useState([])
-    const [loading,setLoading] = useState(false)
+    const query = useLocation() // Lấy query từ URL
+    const [data,setData] = useState([]) // Lưu trữ dữ liệu sản phẩm tìm kiếm được từ API.
+    const [loading,setLoading] = useState(false) // Xác định trạng thái tải dữ liệu.
 
     console.log("query",query.search)
 
+    // Hàm fetch dữ liệu sản phẩm theo từ khóa tìm kiếm.
     const fetchProduct = async()=>{
-        setLoading(true)
-        const response = await fetch(SummaryApi.searchProduct.url+query.search)
+        setLoading(true) // Bắt đầu trạng thái loading
+        const response = await fetch(SummaryApi.searchProduct.url+query.search) // Gửi yêu cầu API để lấy dữ liệu sản phẩm theo từ khóa tìm kiếm.
         const dataResponse = await response.json()
-        setLoading(false)
+        setLoading(false) // Kết thúc trạng thái loading
 
         setData(dataResponse.data)
     }
 
+    // Gọi hàm fetchProduct khi component được render lần đầu tiên.
     useEffect(()=>{
         fetchProduct()
     },[query])

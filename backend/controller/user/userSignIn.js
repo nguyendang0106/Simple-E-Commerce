@@ -31,9 +31,9 @@ async function userSignInController(req,res){
         const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET_KEY, { expiresIn: 60 * 60 * 8 }); // sau 8 h max thong bao het han
 
         const tokenOption = {
-            httpOnly : true,
-            secure : true,
-            sameSite : 'None'
+            httpOnly : true, // Cookie không thể truy cập qua JavaScript để tăng tính bảo mật.
+            secure : true, // Cookie chỉ được gửi qua HTTPS.
+            sameSite : 'None' // Chống tấn công CSRF (cross-site request forgery).
         }
 
         res.cookie("token",token,tokenOption).status(200).json({

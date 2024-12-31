@@ -14,15 +14,15 @@ import ProfileIcon from '../assest/ProfileIcon.jpg';
 
 
 const Header = () => {
-  const user = useSelector(state => state?.user?.user)
-  const dispatch = useDispatch()
-  const [menuDisplay,setMenuDisplay] = useState(false)
-  const context = useContext(Context)
-  const navigate = useNavigate()
-  const searchInput = useLocation()
-  const URLSearch = new URLSearchParams(searchInput?.search)
-  const searchQuery = URLSearch.getAll("q")
-  const [search,setSearch] = useState(searchQuery)
+  const user = useSelector(state => state?.user?.user) // Sử dụng Redux để lấy trạng thái người dùng từ store
+  const dispatch = useDispatch() // Sử dụng useDispatch để gửi action đến store. Dùng để thay đổi trạng thái Redux.
+  const [menuDisplay,setMenuDisplay] = useState(false) // useState là hook quản lý trạng thái nội bộ của component.
+  const context = useContext(Context) // Truy cập dữ liệu từ Context API (số lượng sản phẩm trong giỏ hàng).
+  const navigate = useNavigate() // Sử dụng hook useNavigate để chuyển hướng trang.
+  const searchInput = useLocation() // Trả về thông tin về URL hiện tại, bao gồm pathname và search.
+  const URLSearch = new URLSearchParams(searchInput?.search) // Sử dụng URLSearchParams để phân tích và trích xuất dữ liệu từ query string của URL.
+  const searchQuery = URLSearch.getAll("q") // Lấy danh sách các giá trị của tham số q trong query string. Nếu URL là /search?q=laptop, URLSearch.getAll("q") trả về: ["laptop"]
+  const [search,setSearch] = useState(searchQuery) // Lưu trữ giá trị tìm kiếm người dùng nhập vào.
 
 
 
@@ -36,7 +36,7 @@ const Header = () => {
 
     if(data.success){
       toast.success(data.message)
-      dispatch(setUserDetails(null))
+      dispatch(setUserDetails(null)) // Xóa trạng thái người dùng khỏi store.
       navigate("/")
     }
 

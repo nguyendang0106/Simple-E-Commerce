@@ -15,7 +15,7 @@ const AdminPanel = () => {
 
     useEffect(()=>{
         if(user?.role !== ROLE.ADMIN){
-            navigate("/")
+            navigate("/") // trang chủ
         }
     },[user])
 

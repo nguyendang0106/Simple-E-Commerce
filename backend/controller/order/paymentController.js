@@ -1,13 +1,13 @@
 const stripe = require('../../config/stripe')
 const userModel = require('../../models/userModel')
 
-const paymentController = async(request, response)=>{
+const paymentController = async(request, response)=>{ // Tạo session thanh toán.
     try {
-        const { cartItems } = request.body
+        const { cartItems } = request.body // Lấy thông tin giỏ hàng từ request.
 
-        const user = await userModel.findOne({ _id : request.userId})
+        const user = await userModel.findOne({ _id : request.userId}) // Tìm user từ database theo userId.
 
-        const params = {
+        const params = { // Tạo session thanh toán với các thông tin cần thiết.
             submit_type : 'pay',
             mode : "payment",
             payment_method_types : ['card'],
@@ -45,9 +45,9 @@ const paymentController = async(request, response)=>{
             cancel_url : `${process.env.FRONTEND_URL}/cancel`
         }
 
-        const session = await stripe.checkout.sessions.create(params)
+        const session = await stripe.checkout.sessions.create(params) // Tạo session thanh toán.
 
-        response.status(303).json(session)
+        response.status(303).json(session) // Trả về session thanh toán.
         
     } catch (error) {
         response.json({

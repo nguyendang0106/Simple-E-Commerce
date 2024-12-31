@@ -15,8 +15,10 @@ const initialState = {
     },
   })
   
-  // Action creators are generated for each case reducer function
+  // Các trình tạo hành động được tạo ra cho mỗi hàm giảm trường hợp
   export const { setUserDetails } = userSlice.actions
 
   
   export default userSlice.reducer    
+
+  // Đây là nơi định nghĩa một phần trạng thái liên quan đến người dùng (user) và các hành động (actions) để thay đổi trạng thái đó.
