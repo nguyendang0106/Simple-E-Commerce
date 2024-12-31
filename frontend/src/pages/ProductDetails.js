@@ -46,7 +46,7 @@ const ProductDetails = () => {
     {
       username: 'phúc đầu bò',
       rating: 1,
-      comment: 'thực sự là k cần gì để khen vì nó như cứt',
+      comment: 'thực sự là k cần gì để khen',
       images: [
         'https://down-vn.img.susercontent.com/file/vn-11134103-7r98o-lxf22tx7o3ixa9.webp',
         'https://down-vn.img.susercontent.com/file/vn-11134103-7r98o-lxf22txhkvkr95.webp',
